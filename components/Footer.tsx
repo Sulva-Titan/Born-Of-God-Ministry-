@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 
 export function Footer() {
@@ -14,10 +15,14 @@ export function Footer() {
           {/* Brand & Newsletter */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-2 mb-6 group">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand/20 to-white/5 border border-brand/20 flex items-center justify-center backdrop-blur-md">
-                <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 text-brand" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2v20M17 7l-5-5-5 5" />
-                </svg>
+              <div className="w-8 h-8 rounded-lg overflow-hidden border border-brand/20 flex items-center justify-center backdrop-blur-md relative">
+                <Image
+                  src="/logo.jpeg"
+                  alt="Born Of God Ministries Logo"
+                  fill
+                  className="object-cover"
+                  referrerPolicy="no-referrer"
+                />
               </div>
             </Link>
             <p className="text-sm text-white/60 font-light mb-8 max-w-sm leading-relaxed">

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, useScroll, useMotionValueEvent } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -46,10 +47,14 @@ export function Navbar() {
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand/20 to-white/5 border border-brand/20 flex items-center justify-center backdrop-blur-md shadow-[0_4px_15px_rgba(244,196,0,0.2)] group-hover:shadow-[0_4px_25px_rgba(244,196,0,0.3)] group-hover:scale-105 transition-all duration-300">
-            <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 text-brand" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2v20M17 7l-5-5-5 5" />
-            </svg>
+          <div className="w-10 h-10 rounded-xl overflow-hidden border border-brand/20 flex items-center justify-center backdrop-blur-md shadow-[0_4px_15px_rgba(244,196,0,0.2)] group-hover:shadow-[0_4px_25px_rgba(244,196,0,0.3)] group-hover:scale-105 transition-all duration-300 relative">
+            <Image
+              src="/logo.jpeg"
+              alt="Born Of God Ministries Logo"
+              fill
+              className="object-cover"
+              referrerPolicy="no-referrer"
+            />
           </div>
         </Link>
 
