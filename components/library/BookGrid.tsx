@@ -24,52 +24,8 @@ interface Book {
   downloads: string;
   date: string;
   format: string;
+  file_url?: string;
 }
-
-const DEFAULT_BOOKS: Book[] = [
-  {
-    id: 'b1',
-    title: 'Foundations of Faith',
-    author: 'Apostle John Doe',
-    category: 'Discipleship',
-    pages: 120,
-    downloads: '15.2k',
-    format: 'PDF',
-    description: 'A core guide to Christian faith.',
-    cover: 'https://picsum.photos/seed/faith/400/600',
-    language: 'English',
-    size: '2.4 MB',
-    date: 'Oct 2023'
-  },
-  {
-    id: 'b2',
-    title: 'The Prayer Driven Church',
-    author: 'Pastor Jane Doe',
-    category: 'Prayer',
-    pages: 210,
-    downloads: '8.4k',
-    format: 'EPUB',
-    description: 'Developing church-wide prayer strategy.',
-    cover: 'https://picsum.photos/seed/prayer/400/600',
-    language: 'English',
-    size: '1.8 MB',
-    date: 'Sep 2023'
-  },
-  {
-    id: 'b3',
-    title: 'Marriage By Design',
-    author: 'Rev. Mark Smith',
-    category: 'Marriage',
-    pages: 185,
-    downloads: '10.1k',
-    format: 'PDF',
-    description: 'Biblical guide to healthy relationships.',
-    cover: 'https://picsum.photos/seed/marriage/400/600',
-    language: 'English',
-    size: '3.1 MB',
-    date: 'Aug 2023'
-  }
-];
 
 export function BookGrid() {
   const [libraryBooks, setLibraryBooks] = useState<Book[]>([]);
@@ -77,26 +33,13 @@ export function BookGrid() {
 
   useEffect(() => {
     async function fetchBooks() {
-      try {
-        const { data, error } = await supabase
-          .from('books')
-          .select('*')
-          .order('created_at', { ascending: false });
-          
-        if (error) {
-          console.warn('Error fetching books, using fallback data:', error.message || error);
-          setLibraryBooks(DEFAULT_BOOKS);
-        } else if (data && data.length > 0) {
-          setLibraryBooks(data as any);
-        } else {
-          setLibraryBooks(DEFAULT_BOOKS);
-        }
-      } catch (e: any) {
-        console.warn('Failed to fetch books, using fallback:', e);
-        setLibraryBooks(DEFAULT_BOOKS);
-      } finally {
-        setLoading(false);
-      }
+      const { data, error } = await supabase
+        .from('books')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) console.warn('Error fetching books:', error.message || error);
+      setLibraryBooks((data as Book[]) ?? []);
+      setLoading(false);
     }
     fetchBooks();
   }, []);
@@ -150,13 +93,19 @@ export function BookGrid() {
                 <DialogTrigger className="text-left">
                   <div className="group cursor-pointer flex flex-col h-full">
                     <Card className="relative aspect-[2/3] rounded-2xl overflow-hidden bg-white/5 border-white/10 mb-4 shadow-lg group-hover:shadow-[0_15px_30px_rgba(255,255,255,0.1)] transition-all duration-500">
-                      <Image
-                        src={book.cover || 'https://picsum.photos/seed/placeholder/600/900'}
-                        alt={book.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                        referrerPolicy="no-referrer"
-                      />
+                      {book.cover ? (
+                        <Image
+                          src={book.cover}
+                          alt={book.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                          referrerPolicy="no-referrer"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand/20 via-white/5 to-black p-4 text-center">
+                          <span className="font-heading font-semibold text-white/80 text-sm line-clamp-4">{book.title}</span>
+                        </div>
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
                       
                       {/* Hover Actions */}
@@ -193,10 +142,11 @@ export function BookGrid() {
                 
                 <BookModal book={{
                   ...book,
-                  cover: book.cover || 'https://picsum.photos/seed/placeholder/600/900',
+                  cover: book.cover || '',
                   language: book.language || 'English',
-                  size: book.size || 'Unknown',
-                  date: book.date || 'Unknown'
+                  size: book.size || '—',
+                  date: book.date || '',
+                  file_url: book.file_url || '',
                 }} />
               </Dialog>
             </motion.div>

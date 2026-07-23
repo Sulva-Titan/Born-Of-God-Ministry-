@@ -17,14 +17,10 @@ export function WhoWeAre() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="relative"
           >
-            <div className="aspect-[4/5] relative rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
-              <Image
-                src="https://picsum.photos/seed/ministryimage/800/1000"
-                alt="Ministry congregation"
-                fill
-                className="object-cover"
-                referrerPolicy="no-referrer"
-              />
+            <div className="aspect-[4/5] relative rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl bg-gradient-to-br from-brand/25 via-white/5 to-black flex items-center justify-center">
+              <div className="w-24 h-24 rounded-2xl overflow-hidden border border-brand/20 relative">
+                <Image src="/logo.jpeg" alt="Born Of God Ministries" fill className="object-cover" />
+              </div>
               <div className="absolute inset-0 bg-gradient-to-tr from-brand-black/60 via-transparent to-white/10" />
             </div>
             

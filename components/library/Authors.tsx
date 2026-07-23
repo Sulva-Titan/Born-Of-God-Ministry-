@@ -1,35 +1,38 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import Image from 'next/image';
 import { Card } from '@/components/ui/card';
-import { ArrowRight, BookMarked } from 'lucide-react';
+import { BookMarked } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
-const authors = [
-  {
-    name: 'Apostle John Doe',
-    role: 'Founder & Senior Pastor',
-    books: 18,
-    image: 'https://picsum.photos/seed/auth1/400/400',
-    bio: 'Author of the best-selling "Foundations of Faith" and numerous leadership manuals used globally.',
-  },
-  {
-    name: 'Pastor Jane Doe',
-    role: 'Executive Pastor',
-    books: 12,
-    image: 'https://picsum.photos/seed/auth2/400/400',
-    bio: 'Renowned for her deep teachings on prayer, the Holy Spirit, and Christian family life.',
-  },
-  {
-    name: 'Rev. Mark Smith',
-    role: 'Missions Director',
-    books: 8,
-    image: 'https://picsum.photos/seed/auth3/400/400',
-    bio: 'Writing extensively on evangelism, church planting, and cross-cultural ministry.',
-  }
-];
+interface Author {
+  name: string;
+  books: number;
+}
 
 export function Authors() {
+  const [authors, setAuthors] = useState<Author[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase
+      .from('books')
+      .select('author')
+      .then(({ data }) => {
+        const counts = new Map<string, number>();
+        (data ?? []).forEach((r: any) => {
+          if (r.author) counts.set(r.author, (counts.get(r.author) ?? 0) + 1);
+        });
+        setAuthors(
+          Array.from(counts, ([name, books]) => ({ name, books })).sort((a, b) => b.books - a.books)
+        );
+        setLoading(false);
+      });
+  }, []);
+
+  if (!loading && authors.length === 0) return null;
+
   return (
     <section className="py-24 relative bg-black overflow-hidden border-t border-white/5">
       <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
@@ -52,47 +55,25 @@ export function Authors() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {authors.map((author, index) => (
             <motion.div
               key={author.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <Card className="group p-8 rounded-[2.5rem] bg-white/5 border-white/10 backdrop-blur-xl hover:bg-white/[0.08] transition-all duration-500 text-center flex flex-col items-center">
-                <div className="relative w-32 h-32 rounded-full overflow-hidden mb-6 p-1 border-2 border-white/10 group-hover:border-white/30 transition-colors">
-                  <div className="relative w-full h-full rounded-full overflow-hidden">
-                    <Image
-                      src={author.image}
-                      alt={author.name}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
+                <div className="w-24 h-24 rounded-full mb-6 border-2 border-white/10 flex items-center justify-center bg-gradient-to-br from-brand/20 to-white/5">
+                  <span className="font-heading text-3xl text-white/70">{author.name.charAt(0)}</span>
                 </div>
-                
-                <h3 className="text-xl font-heading font-semibold text-white mb-1">
-                  {author.name}
-                </h3>
-                <p className="text-sm text-white/50 uppercase tracking-wider mb-4">
-                  {author.role}
-                </p>
-                
-                <p className="text-white/60 font-light text-sm leading-relaxed mb-6">
-                  {author.bio}
-                </p>
-                
-                <div className="mt-auto w-full pt-6 border-t border-white/10 flex items-center justify-between">
+                <h3 className="text-xl font-heading font-semibold text-white mb-4">{author.name}</h3>
+                <div className="mt-auto w-full pt-6 border-t border-white/10 flex items-center justify-center">
                   <span className="text-sm text-white/70 flex items-center gap-1.5 font-medium">
                     <BookMarked className="w-4 h-4 text-white/40" />
-                    {author.books} Books
+                    {author.books} {author.books === 1 ? 'Book' : 'Books'}
                   </span>
-                  <button className="text-sm text-white hover:text-blue-200 transition-colors flex items-center gap-1 font-medium group/btn">
-                    View Works <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
                 </div>
               </Card>
             </motion.div>

@@ -1,20 +1,13 @@
 'use client';
 
 import { motion } from 'motion/react';
-import Image from 'next/image';
 
 export function Vision() {
   return (
     <section className="relative py-40 flex items-center justify-center overflow-hidden">
       {/* Immersive Background */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="https://picsum.photos/seed/visionbg/1920/1080"
-          alt="Global Vision"
-          fill
-          className="object-cover"
-          referrerPolicy="no-referrer"
-        />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#141008] via-brand-black to-black" />
         {/* Soft Glass Overlay */}
         <div className="absolute inset-0 bg-brand-black/60 backdrop-blur-[2px]" />
         {/* Gradient fades for seamless integration */}

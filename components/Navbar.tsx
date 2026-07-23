@@ -84,7 +84,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
-          <Link href="#give" className="text-sm font-medium text-white/70 hover:text-brand transition-colors">
+          <Link href="/give" className="text-sm font-medium text-white/70 hover:text-brand transition-colors">
             Give
           </Link>
           <Button className="rounded-full bg-brand text-brand-charcoal hover:bg-brand-light font-medium px-6 shadow-[0_4px_20px_rgba(244,196,0,0.3)]">
@@ -119,7 +119,7 @@ export function Navbar() {
             </Link>
           ))}
           <div className="h-px bg-white/10 my-2" />
-          <Link href="#give" className="text-lg font-medium text-white/80 hover:text-brand p-2">
+          <Link href="/give" className="text-lg font-medium text-white/80 hover:text-brand p-2">
             Give
           </Link>
           <Button className="w-full mt-2 rounded-full bg-brand text-brand-charcoal hover:bg-brand-light">

@@ -11,7 +11,6 @@ import { CoreValues } from '@/components/about/CoreValues';
 import { AboutStats } from '@/components/about/AboutStats';
 import { Leadership } from '@/components/about/Leadership';
 import { WhyChooseUs } from '@/components/about/WhyChooseUs';
-import { PhotoGallery } from '@/components/about/PhotoGallery';
 
 export const metadata: Metadata = {
   title: 'About Us | Born Of God Ministries',
@@ -23,7 +22,7 @@ export const metadata: Metadata = {
     siteName: 'Born Of God Ministries',
     images: [
       {
-        url: 'https://picsum.photos/seed/bogabout/1200/630',
+        url: '/logo.jpeg',
         width: 1200,
         height: 630,
         alt: 'About Born Of God Ministries',
@@ -36,7 +35,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'About Born Of God Ministries',
     description: 'Our Story, Mission, and Global Impact.',
-    images: ['https://picsum.photos/seed/bogabout/1200/630'],
+    images: ['/logo.jpeg'],
   },
   alternates: {
     canonical: 'https://bornofgodministries.org/about',
@@ -57,7 +56,7 @@ const jsonLd = {
     name: 'Born Of God Ministries',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://bornofgodministries.org/logo.png'
+      url: 'https://bornofgodministries.org/logo.jpeg'
     }
   }
 };
@@ -80,7 +79,6 @@ export default function AboutPage() {
         <AboutStats />
         <Leadership />
         <WhyChooseUs />
-        <PhotoGallery />
         <CTA />
         <Footer />
       </main>

@@ -15,60 +15,20 @@ interface Sermon {
   youtubeId: string;
 }
 
-const DEFAULT_SERMONS: Sermon[] = [
-  {
-    id: 1,
-    title: 'The Power of Sonship',
-    speaker: 'Apostle John Doe',
-    date: 'Oct 22, 2023',
-    duration: '45 mins',
-    youtubeId: 'dQw4w9WgXcQ',
-  },
-  {
-    id: 2,
-    title: 'Faith That Moves Mountains',
-    speaker: 'Pastor Jane Smith',
-    date: 'Oct 15, 2023',
-    duration: '52 mins',
-    youtubeId: 'dQw4w9WgXcQ',
-  },
-  {
-    id: 3,
-    title: 'Walking in Divine Purpose',
-    speaker: 'Apostle John Doe',
-    date: 'Oct 08, 2023',
-    duration: '60 mins',
-    youtubeId: 'dQw4w9WgXcQ',
-  },
-];
-
 export function Sermons() {
   const [sermons, setSermons] = useState<Sermon[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchSermons() {
-      try {
-        const { data, error } = await supabase
-          .from('sermons')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .limit(3);
-          
-        if (error) {
-          console.warn('Error fetching sermons, using fallback data:', error.message || error);
-          setSermons(DEFAULT_SERMONS);
-        } else if (data && data.length > 0) {
-          setSermons(data as any);
-        } else {
-          setSermons(DEFAULT_SERMONS);
-        }
-      } catch (e: any) {
-        console.warn('Failed to fetch sermons, using fallback:', e);
-        setSermons(DEFAULT_SERMONS);
-      } finally {
-        setLoading(false);
-      }
+      const { data, error } = await supabase
+        .from('sermons')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(3);
+      if (error) console.warn('Error fetching sermons:', error.message || error);
+      setSermons((data as Sermon[]) ?? []);
+      setLoading(false);
     }
     fetchSermons();
   }, []);
