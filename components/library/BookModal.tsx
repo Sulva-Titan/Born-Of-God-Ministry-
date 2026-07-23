@@ -20,6 +20,7 @@ export type Book = {
   downloads: string;
   date: string;
   format: string;
+  file_url?: string;
 };
 
 export function BookModal({ book }: { book: Book }) {
@@ -34,13 +35,19 @@ export function BookModal({ book }: { book: Book }) {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent pointer-events-none" />
           
           <div className="relative w-full aspect-[2/3] max-w-[280px] rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/20">
-            <Image
-              src={book.cover}
-              alt={book.title}
-              fill
-              className="object-cover"
-              referrerPolicy="no-referrer"
-            />
+            {book.cover ? (
+              <Image
+                src={book.cover}
+                alt={book.title}
+                fill
+                className="object-cover"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand/20 via-white/5 to-black p-6 text-center">
+                <span className="font-heading font-semibold text-white/80">{book.title}</span>
+              </div>
+            )}
           </div>
           
           <div className="mt-8 flex items-center justify-center gap-4 w-full px-4">
@@ -98,19 +105,31 @@ export function BookModal({ book }: { book: Book }) {
             <p className="text-white/60 font-light leading-relaxed">
               {book.description}
             </p>
-            <p className="text-white/60 font-light leading-relaxed mt-4">
-              Whether you are a new believer seeking foundational truths or a seasoned leader looking for fresh perspectives, this material is designed to challenge, inspire, and equip you for the journey ahead. It includes reflection questions, scriptural cross-references, and practical action steps to apply these principles immediately.
-            </p>
           </div>
 
           <div className="mt-auto pt-6 flex flex-col sm:flex-row items-center gap-4">
-            <Button className="w-full sm:w-auto rounded-full bg-brand text-brand-charcoal hover:bg-brand-light h-14 px-10 text-base font-semibold shadow-[0_4px_20px_rgba(244,196,0,0.3)] transition-all hover:scale-105 active:scale-95 flex items-center gap-3">
-              <Download className="w-5 h-5" />
-              Download Free ({book.size})
-            </Button>
-            <p className="text-xs text-white/40 font-light flex items-center gap-1.5 mt-2 sm:mt-0">
-              <ShieldCheck className="w-4 h-4 text-green-400/70" /> Safe & verified file
-            </p>
+            {book.file_url ? (
+              <a
+                href={book.file_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="w-full sm:w-auto rounded-full bg-brand text-brand-charcoal hover:bg-brand-light h-14 px-10 text-base font-semibold shadow-[0_4px_20px_rgba(244,196,0,0.3)] transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3"
+              >
+                <Download className="w-5 h-5" />
+                Download {book.format || 'file'}
+              </a>
+            ) : (
+              <Button disabled className="w-full sm:w-auto rounded-full h-14 px-10 text-base font-semibold flex items-center gap-3 opacity-60 cursor-not-allowed">
+                <Download className="w-5 h-5" />
+                Download unavailable
+              </Button>
+            )}
+            {book.file_url && (
+              <p className="text-xs text-white/40 font-light flex items-center gap-1.5 mt-2 sm:mt-0">
+                <ShieldCheck className="w-4 h-4 text-green-400/70" /> {book.size}
+              </p>
+            )}
           </div>
 
         </div>

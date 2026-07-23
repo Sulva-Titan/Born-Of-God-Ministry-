@@ -1,21 +1,13 @@
 'use client';
 
 import { motion } from 'motion/react';
-import Image from 'next/image';
 
 export function AboutHero() {
   return (
     <section className="relative h-[80vh] min-h-[600px] w-full flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
+      {/* Background */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="https://picsum.photos/seed/aboutworship/1920/1080"
-          alt="Born of God Ministries Worship"
-          fill
-          className="object-cover"
-          priority
-          referrerPolicy="no-referrer"
-        />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-black via-[#141008] to-black" />
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-brand-black/60 bg-gradient-to-t from-brand-black via-brand-black/40 to-brand-black/80" />
       </div>

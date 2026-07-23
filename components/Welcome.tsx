@@ -19,14 +19,10 @@ export function Welcome() {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="relative"
           >
-            <div className="aspect-[4/5] relative rounded-[2rem] overflow-hidden border border-white/10">
-              <Image
-                src="https://picsum.photos/seed/churchpastor/800/1000"
-                alt="Welcoming ministry image"
-                fill
-                className="object-cover"
-                referrerPolicy="no-referrer"
-              />
+            <div className="aspect-[4/5] relative rounded-[2rem] overflow-hidden border border-white/10 bg-gradient-to-br from-brand/25 via-white/5 to-black flex items-center justify-center">
+              <div className="w-28 h-28 rounded-2xl overflow-hidden border border-brand/20 relative">
+                <Image src="/logo.jpeg" alt="Born Of God Ministries" fill className="object-cover" />
+              </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             </div>
             

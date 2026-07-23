@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: 'Born Of God Ministries',
     images: [
       {
-        url: 'https://picsum.photos/seed/bog/1200/630',
+        url: '/logo.jpeg',
         width: 1200,
         height: 630,
         alt: 'Born Of God Ministries Global Impact',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Born Of God Ministries',
     description: 'Raising a Generation Born of God.',
-    images: ['https://picsum.photos/seed/bog/1200/630'],
+    images: ['/logo.jpeg'],
   },
   alternates: {
     canonical: 'https://bornofgodministries.org',
@@ -45,7 +45,7 @@ const jsonLd = {
   '@type': 'Church',
   name: 'Born Of God Ministries',
   url: 'https://bornofgodministries.org',
-  logo: 'https://bornofgodministries.org/logo.png',
+  logo: 'https://bornofgodministries.org/logo.jpeg',
   description: 'Raising a Generation Born of God. Over 100 churches worldwide teaching hundreds of Pastors globally.',
   address: {
     '@type': 'PostalAddress',

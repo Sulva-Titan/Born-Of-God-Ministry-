@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'motion/react';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { SearchBar } from './SearchBar';
 import { ArrowDown } from 'lucide-react';
@@ -13,16 +12,9 @@ export function LibraryHero() {
 
   return (
     <section className="relative min-h-[85vh] w-full flex flex-col items-center justify-center overflow-hidden pt-20">
-      {/* Background Image */}
+      {/* Background */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="https://picsum.photos/seed/librarybg/1920/1080"
-          alt="Library Background"
-          fill
-          className="object-cover"
-          priority
-          referrerPolicy="no-referrer"
-        />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-black via-[#141008] to-black" />
         {/* Soft Glass Overlay */}
         <div className="absolute inset-0 bg-black/70 backdrop-blur-[4px] bg-gradient-to-b from-black/80 via-black/50 to-black" />
       </div>

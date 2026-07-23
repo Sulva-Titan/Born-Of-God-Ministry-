@@ -1,39 +1,39 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Card } from '@/components/ui/card';
 import { Quote } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
-const testimonials = [
-  {
-    id: 1,
-    name: 'Sarah K.',
-    role: 'Church Member',
-    content: 'Joining Born Of God Ministries has completely transformed my understanding of who I am in Christ. The teachings are profound yet immensely practical.',
-  },
-  {
-    id: 2,
-    name: 'Pastor David O.',
-    role: 'Global Network Pastor',
-    content: 'The pastoral training I received here equipped me to lead my congregation with excellence and grace. It\'s truly a family that nurtures leaders.',
-  },
-  {
-    id: 3,
-    name: 'Michael T.',
-    role: 'Youth Leader',
-    content: 'A house where the presence of God is tangible. I\'ve seen young people\'s lives radically changed through the youth ministry here.',
-  },
-  {
-    id: 4,
-    name: 'Elena R.',
-    role: 'Volunteer',
-    content: 'Serving in the outreach programs showed me the real heart of this ministry. We don\'t just preach love; we demonstrate it to the nations.',
-  },
-];
+interface Testimonial {
+  id: string;
+  name: string;
+  location: string;
+  quote: string;
+}
 
 export function Testimonials() {
-  // Double the array for infinite scrolling effect
-  const repeatedTestimonials = [...testimonials, ...testimonials];
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchTestimonials() {
+      const { data, error } = await supabase
+        .from('testimonials')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) console.warn('Error fetching testimonials:', error.message || error);
+      setTestimonials((data as Testimonial[]) ?? []);
+      setLoading(false);
+    }
+    fetchTestimonials();
+  }, []);
+
+  if (!loading && testimonials.length === 0) return null;
+
+  // Double the array for the infinite-scroll effect (only if enough items)
+  const repeatedTestimonials = testimonials.length > 2 ? [...testimonials, ...testimonials] : testimonials;
 
   return (
     <section className="py-32 relative bg-brand-black overflow-hidden">
@@ -69,7 +69,7 @@ export function Testimonials() {
             >
               <Quote className="w-8 h-8 text-brand/20 mb-6" />
               <p className="text-lg text-white/80 font-light leading-relaxed mb-8">
-                &quot;{testimonial.content}&quot;
+                &quot;{testimonial.quote}&quot;
               </p>
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand/20 to-white/5 border border-brand/20 flex items-center justify-center text-brand font-semibold">
@@ -77,7 +77,7 @@ export function Testimonials() {
                 </div>
                 <div>
                   <div className="text-white font-medium">{testimonial.name}</div>
-                  <div className="text-sm text-white/50">{testimonial.role}</div>
+                  <div className="text-sm text-white/50">{testimonial.location}</div>
                 </div>
               </div>
             </Card>

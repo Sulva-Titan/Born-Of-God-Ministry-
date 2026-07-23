@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     siteName: 'Born Of God Ministries',
     images: [
       {
-        url: 'https://picsum.photos/seed/boglibrary/1200/630',
+        url: '/logo.jpeg',
         width: 1200,
         height: 630,
         alt: 'Born Of God Ministries Digital Library',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Digital Library | Born Of God Ministries',
     description: 'Download free Christian books and resources.',
-    images: ['https://picsum.photos/seed/boglibrary/1200/630'],
+    images: ['/logo.jpeg'],
   },
   alternates: {
     canonical: 'https://bornofgodministries.org/library',
@@ -52,7 +52,7 @@ const jsonLd = {
     name: 'Born Of God Ministries',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://bornofgodministries.org/logo.png'
+      url: 'https://bornofgodministries.org/logo.jpeg'
     }
   }
 };

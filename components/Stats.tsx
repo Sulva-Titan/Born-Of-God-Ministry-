@@ -16,7 +16,7 @@ export function GlobalImpact() {
 
   useEffect(() => {
     async function fetchStats() {
-      const { data, error } = await supabase.from('homepage_content').select('*').eq('id', 1).single();
+      const { data, error } = await supabase.from('homepage_content').select('*').eq('id', 1).maybeSingle();
       if (data && !error) {
         setStatsData({
           churches: data.stats_churches || '100+',

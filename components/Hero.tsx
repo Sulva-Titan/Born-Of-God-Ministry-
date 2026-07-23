@@ -11,17 +11,17 @@ export function Hero() {
   const [content, setContent] = useState({
     headline: 'Raising a Generation Born of God.',
     subheadline: 'Equipping pastors globally and transforming lives through the love and power of Christ.',
-    imageUrl: 'https://picsum.photos/seed/worship10/1920/1080'
+    imageUrl: ''
   });
 
   useEffect(() => {
     async function fetchHero() {
-      const { data, error } = await supabase.from('homepage_content').select('*').eq('id', 1).single();
+      const { data, error } = await supabase.from('homepage_content').select('*').eq('id', 1).maybeSingle();
       if (data && !error) {
         setContent({
           headline: data.hero_headline || 'Raising a Generation Born of God.',
           subheadline: data.hero_subheadline || 'Equipping pastors globally and transforming lives through the love and power of Christ.',
-          imageUrl: data.hero_image_url || 'https://picsum.photos/seed/worship10/1920/1080'
+          imageUrl: data.hero_image_url || ''
         });
       }
     }
@@ -34,16 +34,20 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
+      {/* Background */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src={content.imageUrl}
-          alt="Worship background"
-          fill
-          className="object-cover"
-          priority
-          referrerPolicy="no-referrer"
-        />
+        {content.imageUrl ? (
+          <Image
+            src={content.imageUrl}
+            alt="Worship background"
+            fill
+            className="object-cover"
+            priority
+            referrerPolicy="no-referrer"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-black via-[#141008] to-black" />
+        )}
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/60 bg-gradient-to-t from-black via-black/40 to-black/80" />
       </div>

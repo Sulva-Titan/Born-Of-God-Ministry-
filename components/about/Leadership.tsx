@@ -1,46 +1,41 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
+import { supabase } from '@/lib/supabase';
 
-// Mock data intended to be replaced by Supabase dynamic fetch
-const leaders = [
-  {
-    id: 1,
-    name: 'Apostle John Doe',
-    role: 'Founder & Visionary',
-    bio: 'Dedicated to teaching the uncompromised Word and raising a generation of powerful believers.',
-    image: 'https://picsum.photos/seed/leader1/600/800',
-  },
-  {
-    id: 2,
-    name: 'Pastor Jane Doe',
-    role: 'Co-Founder & Executive Pastor',
-    bio: 'A passionate leader with a heart for pastoral care, worship, and empowering women globally.',
-    image: 'https://picsum.photos/seed/leader2/600/800',
-  },
-  {
-    id: 3,
-    name: 'Rev. Mark Smith',
-    role: 'Global Missions Director',
-    bio: 'Oversees our international church plants and coordinates global outreach programs.',
-    image: 'https://picsum.photos/seed/leader3/600/800',
-  },
-  {
-    id: 4,
-    name: 'Pastor Sarah Johnson',
-    role: 'Dean, Leadership Institute',
-    bio: 'Dedicated to equipping the next generation of pastors with sound doctrine and leadership skills.',
-    image: 'https://picsum.photos/seed/leader4/600/800',
-  },
-];
+interface Leader {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  image: string;
+}
 
 export function Leadership() {
+  const [leaders, setLeaders] = useState<Leader[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchLeaders() {
+      const { data, error } = await supabase
+        .from('leadership')
+        .select('*')
+        .order('sort_order', { ascending: true });
+      if (error) console.warn('Error fetching leadership:', error.message || error);
+      setLeaders((data as Leader[]) ?? []);
+      setLoading(false);
+    }
+    fetchLeaders();
+  }, []);
+
+  if (!loading && leaders.length === 0) return null;
+
   return (
-    <section className="py-32 relative bg-brand-black">
+    <section id="leadership" className="py-32 relative bg-brand-black">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -70,24 +65,28 @@ export function Leadership() {
               className="group"
             >
               <div className="relative aspect-[3/4] rounded-3xl overflow-hidden mb-6 bg-white/5 border border-white/10">
-                <Image
-                  src={leader.image}
-                  alt={leader.name}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  referrerPolicy="no-referrer"
-                />
+                {leader.image ? (
+                  <Image
+                    src={leader.image}
+                    alt={leader.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-brand/20 via-white/5 to-black">
+                    <span className="font-heading text-4xl text-white/40">{leader.name.charAt(0)}</span>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-black/80 via-brand-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-                
-                {/* Hover Reveal Content */}
-                <div className="absolute inset-0 p-6 flex flex-col justify-end translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                  <p className="text-white/80 text-sm font-light leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                    {leader.bio}
-                  </p>
-                  <Button variant="outline" size="sm" className="w-full bg-white/10 border-white/20 text-white hover:bg-brand hover:border-brand hover:text-brand-charcoal backdrop-blur-md rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200">
-                    View Full Profile
-                  </Button>
-                </div>
+
+                {leader.bio && (
+                  <div className="absolute inset-0 p-6 flex flex-col justify-end translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                    <p className="text-white/80 text-sm font-light leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      {leader.bio}
+                    </p>
+                  </div>
+                )}
               </div>
               
               <div className="text-center">

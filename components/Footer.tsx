@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
+import { NewsletterForm } from '@/components/NewsletterForm';
 
 export function Footer() {
   return (
@@ -29,18 +29,11 @@ export function Footer() {
               Equipping pastors globally and transforming lives through the love and power of Christ. A generation Born of God.
             </p>
             
-            <form suppressHydrationWarning className="flex flex-col sm:flex-row gap-2 max-w-sm" onSubmit={(e) => e.preventDefault()}>
-              <input 
-                suppressHydrationWarning
-                type="email" 
-                placeholder="Join our newsletter" 
-                className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-brand/50 transition-colors backdrop-blur-md"
-                required
-              />
-              <Button type="submit" className="rounded-full bg-brand text-brand-charcoal hover:bg-brand-light h-[46px] px-6 font-medium">
-                Subscribe
-              </Button>
-            </form>
+            <NewsletterForm
+              className="flex flex-col sm:flex-row gap-2 max-w-sm"
+              inputClassName="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-brand/50 transition-colors backdrop-blur-md"
+              buttonClassName="rounded-full bg-brand text-brand-charcoal hover:bg-brand-light h-[46px] px-6 font-medium"
+            />
           </div>
 
           {/* Quick Links */}
@@ -51,7 +44,7 @@ export function Footer() {
               <li><Link href="/#sermons" className="hover:text-brand transition-colors">Sermons</Link></li>
               <li><Link href="/#ministries" className="hover:text-brand transition-colors">Ministries</Link></li>
               <li><Link href="/#events" className="hover:text-brand transition-colors">Events</Link></li>
-              <li><Link href="/#give" className="hover:text-brand transition-colors">Give</Link></li>
+              <li><Link href="/give" className="hover:text-brand transition-colors">Give</Link></li>
             </ul>
           </div>
 
@@ -96,8 +89,8 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-white/10 text-xs text-white/40">
           <p>© {new Date().getFullYear()} Born Of God Ministries. All rights reserved.</p>
           <div className="flex items-center gap-4 mt-4 md:mt-0">
-            <Link href="#" className="hover:text-brand transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-brand transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="hover:text-brand transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-brand transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

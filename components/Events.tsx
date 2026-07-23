@@ -16,58 +16,16 @@ interface Event {
   is_major: boolean;
 }
 
-const DEFAULT_EVENTS: Event[] = [
-  {
-    id: 1,
-    title: 'Global Leadership Summit 2026',
-    date: 'Aug 15, 2026',
-    time: '09:00 AM',
-    location: 'Nairobi HQ & Online',
-    description: 'A gathering of apostolic leaders and marketplace ministers for spiritual alignment and strategic equipping.',
-    is_major: true
-  },
-  {
-    id: 2,
-    title: 'Anointed Fire & Power Night',
-    date: 'Sep 04, 2026',
-    time: '08:00 PM',
-    location: 'London Covenant Dome',
-    description: 'A night of deep worship, prophetic declarations, and tangible manifestations of the Holy Spirit.',
-    is_major: false
-  },
-  {
-    id: 3,
-    title: 'International Discipleship Conference',
-    date: 'Oct 12, 2026',
-    time: '10:00 AM',
-    location: 'Johannesburg Center',
-    description: 'Immersive workshops and teachings on building strong, Christ-centered foundations in modern society.',
-    is_major: false
-  }
-];
-
 export function Events() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchEvents() {
-      try {
-        const { data, error } = await supabase.from('events').select('*').order('date', { ascending: true });
-        if (error) {
-          console.warn('Error fetching events, using fallback data:', error.message || error);
-          setEvents(DEFAULT_EVENTS);
-        } else if (data && data.length > 0) {
-          setEvents(data);
-        } else {
-          setEvents(DEFAULT_EVENTS);
-        }
-      } catch (e: any) {
-        console.warn('Failed to fetch events, using fallback:', e);
-        setEvents(DEFAULT_EVENTS);
-      } finally {
-        setLoading(false);
-      }
+      const { data, error } = await supabase.from('events').select('*').order('created_at', { ascending: false });
+      if (error) console.warn('Error fetching events:', error.message || error);
+      setEvents((data as Event[]) ?? []);
+      setLoading(false);
     }
     fetchEvents();
   }, []);

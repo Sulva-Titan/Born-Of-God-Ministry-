@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { Button } from '@/components/ui/button';
 import { BookOpenText } from 'lucide-react';
+import { NewsletterForm } from '@/components/NewsletterForm';
 
 export function LibraryNewsletter() {
   return (
@@ -34,17 +34,12 @@ export function LibraryNewsletter() {
             Subscribe to receive notifications when we add new books, devotionals, and teaching manuals to the digital library.
           </p>
           
-          <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onSubmit={(e) => e.preventDefault()}>
-            <input 
-              type="email" 
-              placeholder="Enter your email address" 
-              className="flex-1 bg-white/5 border border-white/10 rounded-full px-6 py-4 text-white placeholder:text-white/40 focus:outline-none focus:border-brand/50 focus:ring-1 focus:ring-brand/50 transition-all backdrop-blur-md"
-              required
-            />
-            <Button type="submit" className="rounded-full bg-brand text-brand-charcoal hover:bg-brand-light h-[58px] px-8 font-medium text-base shadow-[0_4px_20px_rgba(244,196,0,0.3)]">
-              Subscribe
-            </Button>
-          </form>
+          <NewsletterForm
+            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+            placeholder="Enter your email address"
+            inputClassName="flex-1 bg-white/5 border border-white/10 rounded-full px-6 py-4 text-white placeholder:text-white/40 focus:outline-none focus:border-brand/50 focus:ring-1 focus:ring-brand/50 transition-all backdrop-blur-md"
+            buttonClassName="rounded-full bg-brand text-brand-charcoal hover:bg-brand-light h-[58px] px-8 font-medium text-base shadow-[0_4px_20px_rgba(244,196,0,0.3)]"
+          />
           
           <p className="text-xs text-white/40 mt-6 font-light">
             We respect your privacy. Unsubscribe at any time.
