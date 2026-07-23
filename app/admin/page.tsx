@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
 import { supabase } from '@/lib/supabase';
 import { uploadFile } from '@/lib/supabase/storage';
@@ -498,117 +499,97 @@ export default function AdminDashboard() {
             {/* Ambient Background Grid */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] pointer-events-none" />
 
-            <div className="w-full max-w-5xl bg-white/70 dark:bg-[#121215]/80 backdrop-blur-3xl rounded-[2.5rem] border border-white/40 dark:border-white/5 shadow-[0_30px_100px_rgba(0,0,0,0.06)] overflow-hidden grid grid-cols-1 lg:grid-cols-12 relative">
+            <div className="w-full max-w-4xl bg-[#121215] border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 relative text-white">
               
               {/* Glass Top Edge Glow */}
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand/40 to-transparent" />
 
               {/* Column 1: Graphic Brand Panel */}
-              <div className="lg:col-span-5 bg-gradient-to-b from-brand/10 to-brand-light/[0.02] dark:from-[#1C1C1E] dark:to-[#0B0B0D] p-12 flex flex-col justify-between border-r border-gray-100 dark:border-white/5 relative">
+              <div className="lg:col-span-5 bg-gradient-to-b from-[#1C1C20] to-[#0D0D10] p-10 lg:p-12 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/10 relative">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-brand flex items-center justify-center shadow-md">
-                    <span className="font-heading font-black text-brand-charcoal text-lg">B</span>
+                  <div className="w-10 h-10 rounded-xl overflow-hidden border border-brand/30 relative shrink-0">
+                    <Image
+                      src="/logo.jpeg"
+                      alt="Born Of God Ministries Logo"
+                      fill
+                      className="object-cover"
+                      referrerPolicy="no-referrer"
+                    />
                   </div>
                   <div>
-                    <h1 className="font-heading font-bold text-lg leading-none tracking-tight">Born Of God</h1>
-                    <span className="text-[10px] text-brand/80 font-medium uppercase tracking-widest">Ministries</span>
+                    <h1 className="font-heading font-bold text-lg leading-none tracking-tight text-white">Born Of God</h1>
+                    <span className="text-[10px] text-brand font-semibold uppercase tracking-widest">Ministries</span>
                   </div>
                 </div>
 
-                <div className="my-12">
-                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/20 text-xs font-semibold text-brand-charcoal dark:text-brand-light mb-6">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    Enterprise Portal
+                <div className="my-10">
+                  <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand/10 border border-brand/30 text-xs font-semibold text-brand mb-6">
+                    <Sparkles className="w-3.5 h-3.5 text-brand" />
+                    Administrative Portal
                   </span>
-                  <h2 className="text-3xl font-heading font-bold tracking-tight mb-4 leading-tight">
+                  <h2 className="text-2xl lg:text-3xl font-heading font-bold text-white tracking-tight mb-4 leading-tight">
                     Equipping Leaders. <br />
                     Transforming Nations.
                   </h2>
-                  <p className="text-sm text-brand-charcoal/60 dark:text-white/60 font-light leading-relaxed">
-                    Access the sovereign gateway to administer church resources, update sermons, manage theological catalog resources, branch communications, and view operational logistics in real-time.
+                  <p className="text-sm text-gray-300 font-light leading-relaxed">
+                    Access the secure gateway to administer church resources, update sermons, manage theological catalogs, and coordinate global operations.
                   </p>
                 </div>
 
-                <div className="flex items-center gap-4 border-t border-gray-200/50 dark:border-white/10 pt-6">
-                  <div className="w-8 h-8 rounded-full bg-brand/20 flex items-center justify-center text-brand font-bold text-xs">
+                <div className="flex items-center gap-4 border-t border-white/10 pt-6">
+                  <div className="w-8 h-8 rounded-full bg-brand/20 border border-brand/40 flex items-center justify-center text-brand font-bold text-xs">
                     40+
                   </div>
-                  <span className="text-xs text-brand-charcoal/50 dark:text-white/40 font-medium tracking-wide">
+                  <span className="text-xs text-gray-400 font-medium tracking-wide">
                     Connected Branch Congregations Globally
                   </span>
                 </div>
               </div>
 
-              {/* Column 2: Login Credentials & Simulation Setup */}
-              <div className="lg:col-span-7 p-12 md:p-16 flex flex-col justify-center">
+              {/* Column 2: Login Credentials */}
+              <div className="lg:col-span-7 p-8 lg:p-12 flex flex-col justify-center bg-[#16161A]">
                 <div className="mb-8">
-                  <h3 className="text-2xl font-heading font-semibold tracking-tight mb-1">Administrative Gateway</h3>
-                  <p className="text-sm text-brand-charcoal/50 dark:text-white/40 font-light">
-                    Sign in below or select a preset operational profile role to test.
+                  <h3 className="text-2xl font-heading font-bold text-white tracking-tight mb-1">Administrative Gateway</h3>
+                  <p className="text-sm text-gray-400 font-normal">
+                    Sign in with your administrative credentials.
                   </p>
                 </div>
 
                 <form onSubmit={handleLoginSubmit} className="space-y-6">
-                  {/* Preset Profile selector for fast evaluation */}
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-brand-charcoal/60 dark:text-white/50 mb-2">
-                      Test Profile Persona (RBAC Simulation)
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-2">
+                      Email Address
                     </label>
-                    <div className="grid grid-cols-2 gap-2 max-h-36 overflow-y-auto p-2 border border-gray-100 dark:border-white/5 rounded-2xl bg-gray-50/50 dark:bg-[#1C1C1E]/50">
-                      {USER_ROLES_LIST.map((r) => (
-                        <button
-                          key={r.role}
-                          type="button"
-                          onClick={() => setSelectedRole(r.role)}
-                          className={`flex items-center justify-between text-left px-3 py-2 rounded-xl text-xs font-medium transition-all ${
-                            selectedRole === r.role 
-                              ? 'bg-brand text-brand-charcoal shadow-sm' 
-                              : 'hover:bg-gray-100 dark:hover:bg-white/5'
-                          }`}
-                        >
-                          <span>{r.role}</span>
-                          {selectedRole === r.role && <Check className="w-3.5 h-3.5" />}
-                        </button>
-                      ))}
-                    </div>
+                    <input 
+                      type="email" 
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      className="w-full bg-[#202026] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all"
+                      placeholder="admin@bornofgod.org"
+                      required
+                    />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-brand-charcoal/60 dark:text-white/50 mb-2">
-                        Email Address
-                      </label>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-2">
+                      Secret Key / Password
+                    </label>
+                    <div className="relative">
                       <input 
-                        type="email" 
-                        value={loginEmail}
-                        onChange={(e) => setLoginEmail(e.target.value)}
-                        className="w-full bg-gray-100/50 dark:bg-white/5 border border-transparent dark:border-white/5 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-brand/40 transition-colors"
-                        placeholder="john.doe@bornofgod.org"
+                        type={showPassword ? 'text' : 'password'} 
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}
+                        className="w-full bg-[#202026] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all pr-10"
+                        placeholder="••••••••"
                         required
                       />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-brand-charcoal/60 dark:text-white/50 mb-2">
-                        Secret Key / Password
-                      </label>
-                      <div className="relative">
-                        <input 
-                          type={showPassword ? 'text' : 'password'} 
-                          value={loginPassword}
-                          onChange={(e) => setLoginPassword(e.target.value)}
-                          className="w-full bg-gray-100/50 dark:bg-white/5 border border-transparent dark:border-white/5 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-brand/40 transition-colors pr-10"
-                          placeholder="••••••••"
-                          required
-                        />
-                        <button 
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-charcoal/40 dark:text-white/40 hover:text-brand"
-                        >
-                          {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                        </button>
-                      </div>
+                      <button 
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand transition-colors"
+                      >
+                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
                     </div>
                   </div>
 
@@ -618,25 +599,25 @@ export default function AdminDashboard() {
                         type="checkbox" 
                         checked={rememberMe}
                         onChange={() => setRememberMe(!rememberMe)}
-                        className="rounded border-gray-300 dark:border-white/10 text-brand focus:ring-brand"
+                        className="rounded border-white/20 bg-[#202026] text-brand focus:ring-brand"
                       />
-                      <span className="text-xs text-brand-charcoal/60 dark:text-white/40">Keep session active (30 days)</span>
+                      <span className="text-xs text-gray-300">Keep session active (30 days)</span>
                     </label>
-                    <a href="#" className="text-xs text-brand font-medium hover:underline">Forgot password?</a>
+                    <a href="#" className="text-xs text-brand font-semibold hover:underline">Forgot password?</a>
                   </div>
 
                   <Button 
                     type="submit" 
-                    className="w-full rounded-2xl h-12 bg-brand text-brand-charcoal font-semibold text-sm hover:bg-brand-light shadow-md hover:shadow-lg transition-all"
+                    className="w-full rounded-xl h-12 bg-brand text-black font-bold text-sm hover:bg-brand-light shadow-lg transition-all"
                   >
-                    Authenticate as {selectedRole}
+                    Sign In to Admin Portal
                   </Button>
                 </form>
 
-                <div className="mt-8 pt-6 border-t border-gray-100 dark:border-white/5 flex items-center justify-between text-xs text-brand-charcoal/40 dark:text-white/30">
+                <div className="mt-8 pt-6 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
                   <div className="flex items-center gap-1.5">
                     <Database className="w-3.5 h-3.5 text-brand" />
-                    <span>Supabase DB Link Secure</span>
+                    <span>Supabase Auth Connection</span>
                   </div>
                   <span>Secure SSL v3 TLS1.3</span>
                 </div>

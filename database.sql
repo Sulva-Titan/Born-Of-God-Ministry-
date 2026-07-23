@@ -133,3 +133,87 @@ INSERT INTO events (title, date, time, location, description, is_major) VALUES
 ('Anointed Fire & Power Night', 'Sep 04, 2026', '08:00 PM', 'London Covenant Dome', 'A night of deep worship, prophetic declarations, and tangible manifestations of the Holy Spirit.', false),
 ('International Discipleship Conference', 'Oct 12, 2026', '10:00 AM', 'Johannesburg Center', 'Immersive workshops and teachings on building strong, Christ-centered foundations in modern society.', false)
 ON CONFLICT DO NOTHING;
+
+-- ============================================================================
+-- ADMIN ACCOUNT CREATION FOR SUPABASE AUTH
+-- Run this in the Supabase SQL Editor to create an admin user safely
+-- ============================================================================
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+DO $$
+DECLARE
+  new_user_id uuid := gen_random_uuid();
+  admin_email text := 'admin@bornofgod.org';
+  admin_password text := 'YourSecurePassword123!';
+BEGIN
+  -- Check if user already exists
+  IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = admin_email) THEN
+    -- Insert user into auth.users
+    INSERT INTO auth.users (
+      instance_id,
+      id,
+      aud,
+      role,
+      email,
+      encrypted_password,
+      email_confirmed_at,
+      recovery_sent_at,
+      last_sign_in_at,
+      raw_app_meta_data,
+      raw_user_meta_data,
+      is_super_admin,
+      created_at,
+      updated_at,
+      phone,
+      phone_confirmed_at,
+      confirmation_token,
+      email_change,
+      email_change_token_new,
+      recovery_token
+    ) VALUES (
+      '00000000-0000-0000-0000-000000000000',
+      new_user_id,
+      'authenticated',
+      'authenticated',
+      admin_email,
+      crypt(admin_password, gen_salt('bf')),
+      NOW(),
+      NOW(),
+      NOW(),
+      '{"provider": "email", "providers": ["email"]}',
+      '{"name": "Admin User", "role": "Super Administrator"}',
+      FALSE,
+      NOW(),
+      NOW(),
+      NULL,
+      NULL,
+      '',
+      '',
+      '',
+      ''
+    );
+
+    -- Create associated identity record for email provider authentication
+    INSERT INTO auth.identities (
+      id,
+      user_id,
+      identity_data,
+      provider,
+      provider_id,
+      last_sign_in_at,
+      created_at,
+      updated_at
+    ) VALUES (
+      new_user_id,
+      new_user_id,
+      format('{"sub":"%s","email":"%s"}', new_user_id, admin_email)::jsonb,
+      'email',
+      new_user_id::text,
+      NOW(),
+      NOW(),
+      NOW()
+    );
+  END IF;
+END $$;
+
